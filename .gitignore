@@ -1,0 +1,5 @@
+*.exe
+*.env
+media/*
+!media/.gitkeep
+node_modules

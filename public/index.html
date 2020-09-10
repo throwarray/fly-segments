@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet" />
+    <script>window.HELP_IMPROVE_VIDEOJS = false;</script>
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
+    <script src="https://vjs.zencdn.net/7.8.3/video.js"></script>
+</head>
+<body>
+    <style>
+        body {
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .my-video {
+            height: 100vh;
+            max-height: 100vh;
+            width: 100vw;
+            max-width: 100vw;
+        }
+
+        .video-wrapper {
+            background: #333;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vjs-control-bar {
+            background-color: rgba(0, 0, 0, 0.8) !important;
+        }
+        /* because videojs doesn't use flexbox :( */
+        .vjs-big-play-button {
+	        left: calc(50% - 1.5em) !important;
+	        top: calc(50% - 1.5em) !important;
+        }
+    </style>
+    <div class="video-wrapper" data-vjs-player>
+        <video
+            class="video-js my-video"
+            controls
+            preload="auto"
+            width="640"
+            height="264"
+            data-setup="{}"
+        >
+            <source src="/master/test.m3u8" type="application/x-mpegurl" />
+        </video>
+    </div>
+</body>
+</html>
