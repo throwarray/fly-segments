@@ -6,7 +6,7 @@ let NUMBER_CPU = require('os').cpus().length
 
 const NOOP = ()=> {}
 
-function processMeta (filepath, cb = NOOP, segment_duration_sec = 6, count_frames = false) {
+function getMetadata (filepath, cb = NOOP, segment_duration_sec = 6, count_frames = false) {
     const probe_args = []
 
     if (count_frames) probe_args.push('-count_frames')
@@ -17,27 +17,53 @@ function processMeta (filepath, cb = NOOP, segment_duration_sec = 6, count_frame
             return
         }
 
+        const segment_duration = Math.round(Math.abs(segment_duration_sec) || 1)
         const timeStr = metadata.format && metadata.format.duration
-        const duration = Number(timeStr) || 1
-        const segment_count = Math.ceil(duration / segment_duration_sec) || 1
+        const duration = Math.abs(Number(timeStr) || 1)
+        const segment_count = duration === 0 ?
+            0:
+            Math.ceil(duration / segment_duration) || 1
 
         // Run with count_frames if duration was N/A. It may take a while.
         if (timeStr === 'N/A' && !count_frames) {
-            processMeta(filepath, cb, segment_duration_sec, true)
+            getMetadata(filepath, cb, segment_duration, true)
             return
         }
 
+
+        const duration_estimate = segment_count * segment_duration
+        const duration_estimate_wrong_by = duration_estimate - duration
+        const last_segment_duration = segment_duration - duration_estimate_wrong_by
+        
         cb(false, {
             filepath,
+            segment_duration,
+            timeStr,
             segment_count,
-            segment_duration_sec,
+            last_segment_duration,
             duration 
         })
     })
 }
 
+function stripExt (pathname) { return pathname.replace(/\.(.+)$/, '') }
+
+function parseContentID (data) { return stripExt(data).replace(/\W+/g, '') }
+
+function padTime (input) {
+    const [a, b] = ('' + input).split('.');
+
+    return a + '.' + (b || '').substr(0, 6).padEnd(6, 0)
+}
+
+
+
+
 module.exports = {
-    getMeta: processMeta,
+    stripExt,
+    parseContentID,
+    padTime,
+    getMetadata,
     config ({
         ffmpegPath,
         ffprobePath,

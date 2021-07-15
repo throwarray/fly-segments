@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
-    <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet" />
+    <link href="./videojs.min.css" rel="stylesheet" />
     <script>window.HELP_IMPROVE_VIDEOJS = false;</script>
-    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-    <!-- <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script> -->
-    <script src="https://vjs.zencdn.net/7.8.3/video.js"></script>
+    <script src="./videojs.min.js"></script>
+    <!-- <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet" /> -->
+    <!-- <script src="https://vjs.zencdn.net/7.8.3/video.js"></script> -->
 </head>
 <body>
     <style>
@@ -42,16 +41,20 @@
 	        top: calc(50% - 1.5em) !important;
         }
     </style>
+
     <div class="video-wrapper" data-vjs-player>
         <video
+            id="my-player"
             class="video-js my-video"
             controls
             preload="auto"
+            data-setup='{}'
             width="640"
             height="264"
-            data-setup="{}"
         >
-            <source src="/master/test.m3u8" type="application/x-mpegurl" />
+            <!-- <source src="/master/test.m3u8" type="application/x-mpegurl" /> -->
+            <source src="./streams/test_stream.m3u8" type="application/x-mpegurl"/>
+            <!-- <source src="./vid.mp4?i=0" type="video/mp4"/> -->
         </video>
     </div>
 </body>
